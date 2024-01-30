@@ -1,0 +1,151 @@
+{% extends "layoutsguru.html" %} {% load static %} {% block title %}Manajemen Siswa{% endblock title %} {% block customcss %}
+<link href="{% static 'plugins/highlight/styles/github-gist.css'%}" rel="stylesheet" />
+<link href="{% static 'plugins/datatables/datatables.min.css'%}" rel="stylesheet" />
+{% endblock customcss %} {% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="page-description">
+        <h1>Absensi</h1>
+        <span> Isilah data absensi sesuai dengan tanggal dan kelas yang diajar.</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Daftar Absensi</h5>
+          <br />
+          <a class="btn btn-primary" id="tambahDataBtn">+ Tambah Data Absensi</a>
+        </div>
+        <div class="card-body">
+          <table id="datatable1" class="display" style="width: 100%">
+            <thead>
+              <tr>
+                <th>Nama Kelas</th>
+                <th>Jumlah Siswa</th>
+                <th>Hadir</th>
+                <th>Tidak Hadir</th>
+                <th>Tanggal Kelas</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Tiger Nixon</td>
+                <td>23</td>
+                <td>20</td>
+                <td>3</td>
+                <td>2011/04/25</td>
+                <td>
+                  <a href="#" class="btn btn-primary">Detail</a>
+                  <a href="#" class="btn btn-warning">Edit</a>
+                  <a href="#" class="btn btn-danger">Hapus</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Garrett Winters</td>
+                <td>20</td>
+                <td>18</td>
+                <td>2</td>
+                <td>2011/07/25</td>
+                <td>
+                  <a href="#" class="btn btn-primary">Detail</a>
+                  <a href="#" class="btn btn-warning">Edit</a>
+                  <a href="#" class="btn btn-danger">Hapus</a>
+                </td>
+              </tr>
+            </tbody>
+
+            <tfoot>
+              <tr>
+                <th>Nama Kelas</th>
+                <th>Jumlah Siswa</th>
+                <th>Hadir</th>
+                <th>Tidak Hadir</th>
+                <th>Tanggal Kelas</th>
+                <th>Aksi</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tambahDataModalLabel">Tambah Data Absensi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Form untuk input data absensi -->
+        <form action="{% url 'create_qrcode' %}" method="post">
+          <div class="mb-3">
+            <label for="nama" class="form-label">Nama</label>
+            <input type="text" class="form-control" id="nama" name="nama" required />
+          </div>
+          <div class="mb-3">
+            <label for="key" class="form-label">Key</label>
+            <input type="text" class="form-control" id="key" name="key" required />
+          </div>
+          <!-- Tombol Generate QR Code -->
+          <button type="submit" class="btn btn-success" id="generateQRCodeBtn">Generate QR Code</button>
+        </form>
+      </div>
+      {% comment %}
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-primary" id="simpanDataBtn">Simpan Data</button>
+      </div>
+      {% endcomment %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %} {% block customscript %}
+<!-- Your custom JavaScript -->
+<script>
+  // Ambil elemen tombol dan modal
+  const tambahDataBtn = document.getElementById("tambahDataBtn");
+  const tambahDataModal = new bootstrap.Modal(document.getElementById("tambahDataModal"));
+
+  // Tampilkan modal saat tombol di klik
+  tambahDataBtn.addEventListener("click", () => {
+    tambahDataModal.show();
+  });
+
+  // Contoh implementasi fungsi generate QR Code (gunakan library QRCode.js atau library lainnya)
+  function generateQRCode() {
+    // Implementasikan logika generate QR Code di sini
+    console.log("Generate QR Code");
+  }
+
+  // Ambil elemen tombol Generate QR Code
+  const generateQRCodeBtn = document.getElementById("generateQRCodeBtn");
+  generateQRCodeBtn.addEventListener("click", generateQRCode);
+
+  // Ambil elemen form
+  const formAbsensi = document.getElementById("formAbsensi");
+
+  // Fungsi untuk menangani pengiriman form (simpan data)
+  function simpanData() {
+    // Implementasikan logika penyimpanan data di sini
+    // Anda dapat mengambil nilai dari elemen input menggunakan formAbsensi.elements
+    // Contoh: const nama = formAbsensi.elements['nama'].value;
+    console.log("Simpan Data");
+    // Tutup modal setelah data disimpan
+    tambahDataModal.hide();
+  }
+
+  // Ambil elemen tombol Simpan Data
+  const simpanDataBtn = document.getElementById("simpanDataBtn");
+  simpanDataBtn.addEventListener("click", simpanData);
+</script>
+<script src="{% static 'js/pages/datatables.js' %}"></script>
+{% endblock customscript %}

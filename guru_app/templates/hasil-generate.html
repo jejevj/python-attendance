@@ -1,0 +1,43 @@
+{% extends "layoutsguru.html" %} {% load static %} {% block title %}Manajemen Siswa{% endblock title %} {% block customcss %}
+<link href="{% static 'plugins/highlight/styles/github-gist.css'%}" rel="stylesheet" />
+<link href="{% static 'plugins/datatables/datatables.min.css'%}" rel="stylesheet" />
+{% endblock customcss %} {% block content %}
+
+
+<!-- Modal -->
+<div class="modal fade" id="tambahDataModal" tabindex="-1" aria-labelledby="tambahDataModalLabel" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#tambahDataModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tambahDataModalLabel">Hasil QR Code Absensi</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <br><br>
+        </div>
+        <div class="modal-body text-center">
+            <p>Silahkan scan untuk absen</p>
+          <img src="{% static image_path %}" alt="QR Code" class="img-fluid">
+  
+          <!-- Tombol Generate QR Code -->
+            <br><br>
+          
+          <button type="submit" class="btn btn-success" id="generateQRCodeBtn">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+{% endblock content %} {% block customscript %}
+<script>
+    // Menampilkan modal secara otomatis saat halaman dimuat
+    $(document).ready(function(){
+      $("#tambahDataModal").modal('show');
+    });
+    // Menangani penutupan modal
+    $("#tambahDataModal").on('hidden.bs.modal', function () {
+        window.location.href = "{% url 'absensi' %}";  // Gantilah 'nama_halaman_absensi' dengan nama URL Anda
+    });
+  </script>
+  
+<script src="{% static 'js/pages/datatables.js' %}"></script>
+{% endblock customscript %}

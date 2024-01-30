@@ -1,0 +1,76 @@
+{% extends "layouts-admin.html" %} {% load static %} {% block title %}Manajemen guru{% endblock title %} {% block customcss %}
+<link href="{% static 'plugins/highlight/styles/github-gist.css'%}" rel="stylesheet" />
+<link href="{% static 'plugins/datatables/datatables.min.css'%}" rel="stylesheet" />
+{% endblock customcss %} {% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <div class="page-description">
+        <h1>Guru</h1>
+        <span>Silahkan konfirmasi pendaftaran Guru, perhatikan dengan teliti.</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Data Guru</h5>
+        </div>
+        <div class="card-body">
+          <table id="datatable1" class="display" style="width: 100%">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>NIP</th>
+                <th>Nama</th>
+                <th>Tempat Lahir</th>
+                <th>Tanggal Lahir</th>
+                <th>Status Akun</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for guru in guru_list %}
+
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ guru.nip }}</td>
+                <td>{{ guru.nama_guru }}</td>
+                <td>{{ guru.tempat_lahir }}</td>
+                <td>{{ guru.tanggal_lahir }}</td>
+                {% if not guru.is_verified %}
+                <td class="text-danger">Belum diverifikasi</td>
+                {% else %}
+                <td class="text-success">Sudah diverifikasi</td>
+                {% endif %}
+                <td>
+                  {% if not guru.is_verified %}
+                  <a class="btn btn-success text-white" href="{% url 'toggle_verifikasi_guru' guru.id_guru %}">
+                      <span><i class="material-icons-outlined">check</i> Aktifkan</span>
+                  </a>
+
+                  {% else %}
+
+                  <a name="" id="" class="btn btn-danger text-white" href="{% url 'toggle_verifikasi_guru' guru.id_guru %}" role="button">
+                    <span><i class="material-icons-outlined">block</i>Tahan Akun</span>
+                  </a>
+                  {% endif %}
+                  <a name="" id="" class="btn btn-danger text-white" href="{% url 'delete_guru' guru.id_guru %}" role="button">
+                    <span><i class="material-icons-outlined">delete</i>Delete</span>
+                  </a>
+
+                </td>
+              </tr>
+
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %} {% block customscript %}
+<script src="{% static 'js/pages/datatables.js' %}"></script>
+{% endblock customscript %}
